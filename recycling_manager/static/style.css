@@ -4,6 +4,11 @@ body {
   min-height: 100vh;
   font-family: "IBM Plex Mono", monospace;
   display: flex;
+  transition: background-color 0.35s ease;
+}
+
+body.light {
+  background-color: #ffffff;
 }
 
 h1 {
@@ -12,6 +17,10 @@ h1 {
   font-weight: 400;
   font-style: normal;
   margin-bottom: 1.5rem;
+}
+
+body.light h1 {
+  color: #111;
 }
 
 .center-wrapper {

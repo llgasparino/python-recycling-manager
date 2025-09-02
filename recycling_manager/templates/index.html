@@ -29,16 +29,18 @@
     <script>
       const btn = document.getElementById("main-action");
       const imageArea = document.getElementById("image-area");
+      const body = document.body;
       let shown = false;
       btn.addEventListener("click", () => {
-        if (!shown) {
+        shown = !shown;
+        if (shown) {
           imageArea.classList.remove("hidden");
+          body.classList.add("light");
           btn.textContent = "Ocultar Imagem";
-          shown = true;
         } else {
           imageArea.classList.add("hidden");
+          body.classList.remove("light");
           btn.textContent = "Clique Aqui";
-          shown = false;
         }
       });
     </script>
