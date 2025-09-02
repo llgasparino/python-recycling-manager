@@ -1,3 +1,7 @@
+[![Docker Image Version (latest by date)](https://img.shields.io/docker/v/llgasparino/recycling-manager?sort=date)](https://hub.docker.com/r/llgasparino/recycling-manager)
+[![Docker Pulls](https://img.shields.io/docker/pulls/llgasparino/recycling-manager)](https://hub.docker.com/r/llgasparino/recycling-manager)
+[![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/llgasparino/recycling-manager?sort=date)](https://hub.docker.com/r/llgasparino/recycling-manager)
+
 # python-recycling-manager
 
 Projeto acadêmico: aplicação Flask simples para agendar entrega de descarte eletrônico para um micro-empreendedor.
