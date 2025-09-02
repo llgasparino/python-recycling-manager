@@ -3,12 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/style.css" />
-    <title>Document</title>
+    {# Uso do url_for para servir o CSS corretamente #}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <title>Recycling Manager</title>
   </head>
   <body>
-    <div>
-      <h1>Hello World!</h1>
-    </div>
+    <main class="center-wrapper">
+      <h1>Recycle Manager</h1>
+      <button id="main-action" class="primary-btn" type="button">
+        Clique Aqui
+      </button>
+      <div id="image-area" class="hidden">
+        <div class="image-square">
+          <img
+            id="dynamic-image"
+            src="{{ url_for('static', filename='recycle.jpg') }}"
+            alt="Imagem"
+          />
+        </div>
+      </div>
+    </main>
+    <script>
+      const btn = document.getElementById("main-action");
+      const imageArea = document.getElementById("image-area");
+      let shown = false;
+      btn.addEventListener("click", () => {
+        if (!shown) {
+          imageArea.classList.remove("hidden");
+          btn.textContent = "Ocultar Imagem";
+          shown = true;
+        } else {
+          imageArea.classList.add("hidden");
+          btn.textContent = "Clique Aqui";
+          shown = false;
+        }
+      });
+    </script>
   </body>
 </html>
