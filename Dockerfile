@@ -1,8 +1,6 @@
-# syntax=docker/dockerfile:1.6
+ # syntax=docker/dockerfile:1.6
 
-############################################
-# Base stage
-############################################
+# Imagem base
 FROM python:3.11-slim AS base
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
@@ -31,16 +29,11 @@ ENV FLASK_APP=app \
     FLASK_RUN_HOST=0.0.0.0 \
     FLASK_ENV=production
 
-############################################
-# Development stage (opcional)
-############################################
 FROM base AS dev
 COPY requirements-dev.txt ./
 RUN pip install -r requirements-dev.txt || true
 
-############################################
 # Final image (runtime)
-############################################
 FROM base AS final
 # Se quiser copiar apenas o site-packages final de outra stage, manter simples agora
 
