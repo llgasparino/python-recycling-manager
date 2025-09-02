@@ -35,6 +35,5 @@ RUN pip install -r requirements-dev.txt || true
 
 # Final image (runtime)
 FROM base AS final
-# Se quiser copiar apenas o site-packages final de outra stage, manter simples agora
 
 CMD ["flask", "run"]
