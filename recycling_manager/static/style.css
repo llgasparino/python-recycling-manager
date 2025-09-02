@@ -1,13 +1,84 @@
 body {
-  background-color: lightblue;
+  background-color: black;
+  margin: 0;
+  min-height: 100vh;
+  font-family: "IBM Plex Mono", monospace;
+  display: flex;
+  transition: background-color 0.35s ease;
+}
+
+body.light {
+  background-color: #ffffff;
 }
 
 h1 {
   color: white;
   text-align: center;
+  font-weight: 400;
+  font-style: normal;
+  margin-bottom: 1.5rem;
 }
 
-p {
-  font-family: verdana;
-  font-size: 20px;
+body.light h1 {
+  color: #111;
+}
+
+.center-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-top: 10vh; /* botão mais alto */
+  gap: 1.2rem;
+}
+
+.primary-btn {
+  background: #ffffff;
+  color: #064e00;
+  font-size: 1.1rem;
+  padding: 0.9rem 2rem;
+  border: 2px solid #042f00;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.15s ease, background 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.primary-btn:hover {
+  background: #e8ffe5;
+  transform: translateY(-2px);
+}
+.primary-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#image-area {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.hidden {
+  display: none !important;
+}
+
+.image-square {
+  width: min(70vmin, 600px); /* quadrado proporcional à tela */
+  aspect-ratio: 1 / 1;
+  background: rgba(255, 255, 255, 0.25);
+  border: 3px solid #042f00;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  backdrop-filter: blur(3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.image-square img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
