@@ -13,4 +13,5 @@ mypy==1.5.1
 
 # Security
 bandit==1.7.5
-safety==2.3.5
+# safety 2.x pins packaging<22 causing conflicts with pytest/black; use 3.x
+safety>=3.0.0
