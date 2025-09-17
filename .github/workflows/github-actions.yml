@@ -32,8 +32,9 @@ jobs:
       - name: Run tests
         run: python -m pytest --cov=recycling_manager --cov-report=term-missing -q
 
-      - name: Notify Discord
-        if: always() # Roda sempre, independente de sucesso ou falha
+        
+        - name: Notify Discord
+        if: always() # Roda sempre, independente do resultado
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
@@ -42,50 +43,34 @@ jobs:
             exit 0
           fi
 
+          # Define a cor e o status baseado no resultado do job
           if [[ "${{ job.status }}" == "success" ]]; then
+            EMBED_COLOR=3066993 # Verde
             STATUS_MSG="✅ Sucesso"
-            EMBED_COLOR=3066993 # Cor verde
           else
+            EMBED_COLOR=15158332 # Vermelho
             STATUS_MSG="❌ Falha"
-            EMBED_COLOR=15158332 # Cor vermelha
           fi
-
-          COMMIT_URL="${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
-          ACTION_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-
-          SHORT_SHA="${GITHUB_SHA::7}"
 
           read -r -d '' PAYLOAD << EOF
           {
             "embeds": [{
               "title": "$STATUS_MSG no repositório ${{ github.repository }}",
-              "url": "$ACTION_URL",
+              "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
               "color": "$EMBED_COLOR",
               "fields": [
-                {
-                  "name": "Branch",
-                  "value": "${{ github.ref_name }}",
-                  "inline": true
-                },
-                {
-                  "name": "Autor",
-                  "value": "${{ github.actor }}",
-                  "inline": true
-                },
-                {
-                  "name": "Commit",
-                  "value": "[\`$SHORT_SHA\`]($COMMIT_URL)"
-                }
-              ],
-              "footer": {
-                "text": "Workflow: ${{ github.workflow }}"
-              },
-              "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%S.000Z')"
+                { "name": "Branch", "value": "${{ github.ref_name }}", "inline": true },
+                { "name": "Autor", "value": "${{ github.actor }}", "inline": true },
+                { "name": "Commit", "value": "[\`${GITHUB_SHA::7}\`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})" }
+              ]
             }]
           }
           EOF
-
-          # 3. Envia a notificação usando cURL
+          if ! echo "$PAYLOAD" | jq . > /dev/null; then
+            echo "::error::JSON Inválido gerado. Payload:"
+            echo "$PAYLOAD"
+            exit 1
+          fi
           curl -H "Content-Type: application/json" -X POST \
             -d "$PAYLOAD" "$DISCORD_WEBHOOK_URL"
 
