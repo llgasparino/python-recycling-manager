@@ -32,8 +32,7 @@ jobs:
       - name: Run tests
         run: python -m pytest --cov=recycling_manager --cov-report=term-missing -q
 
-        
-        - name: Notify Discord
+      - name: Notify Discord
         if: always() # Roda sempre, independente do resultado
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
