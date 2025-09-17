@@ -2,13 +2,15 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/llgasparino/recycling-manager)](https://hub.docker.com/r/llgasparino/recycling-manager)
 [![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/llgasparino/recycling-manager?sort=date)](https://hub.docker.com/r/llgasparino/recycling-manager)
 
+🚀 Deploy Vercel: [python-recycling-manager.vercel.app](https://python-recycling-manager.vercel.app/)
+
 # python-recycling-manager
 
 Site para agendamento e consulta de pontos de reciclagem tech em Curitiba, com layout moderno, modo claro/escuro, integração com Discord e CI/CD automatizado.
 
 Veja o site rodando localmente ou via Docker, e confira o layout:
 
-🔗 [Acesse o site local](http://localhost:5000)
+🔗 [Acesse o site](https://python-recycling-manager.vercel.app/)
 
 ## Funcionalidades
 
