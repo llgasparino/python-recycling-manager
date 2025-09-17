@@ -1,6 +1,6 @@
 import unittest
 from app import app
-import datetime  
+import datetime
 
 class BasicTestCase(unittest.TestCase):
 
@@ -41,7 +41,6 @@ class BasicTestCase(unittest.TestCase):
         html_content = response.data.decode('utf-8')
         self.assertIn('Luiz Gasparino', html_content)
         print("Teste 5: O nome do autor está no rodapé.")
-
 
     def test_footer_contains_current_year(self):
         """Verifica se o ano no rodapé corresponde ao ano corrente."""
