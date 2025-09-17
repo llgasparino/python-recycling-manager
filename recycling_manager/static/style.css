@@ -1,26 +1,247 @@
+/* Página de erro */
+.error-wrapper {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+.error-title {
+  font-size: 2.5rem;
+  color: #ff4e4e;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.error-desc {
+  font-size: 1.2rem;
+  color: #888;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.error-wrapper .primary-btn {
+  background: #0bff7a;
+  color: #181818;
+  font-size: 1.1rem;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: background 0.2s;
+}
+.error-wrapper .primary-btn:hover {
+  background: #0bff7a99;
+}
+/* O Que Reciclamos */
+.o-que-reciclamos {
+  margin: 3rem auto 0 auto;
+  max-width: 900px;
+  background: rgba(11, 255, 122, 0.05);
+  border-radius: 10px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.o-que-reciclamos h2 {
+  color: #0bff7a;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+body.light .o-que-reciclamos h2 {
+  color: #064e00;
+}
+.itens-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+  align-items: stretch;
+}
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(11, 255, 122, 0.08);
+  border-radius: 8px;
+  padding: 1.2rem 0.5rem 0.7rem 0.5rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+  min-height: 180px;
+}
+.item img {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 1rem;
+}
+.item p {
+  font-size: 1.05rem;
+  color: #0bff7a;
+  text-align: center;
+  margin: 0;
+}
+body.light .item p {
+  color: #064e00;
+}
 body {
-  background-color: black;
+  background-color: #181818;
   margin: 0;
   min-height: 100vh;
   font-family: "IBM Plex Mono", monospace;
-  display: flex;
-  transition: background-color 0.35s ease;
+  transition: background-color 0.35s ease, color 0.35s ease;
+  color: #f3f3f3;
+  overflow-x: hidden;
 }
 
 body.light {
-  background-color: #ffffff;
+  background-color: #f3f3f3;
+  color: #181818;
 }
 
-h1 {
-  color: white;
+.header {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 1rem 0.5rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.nav-link {
+  font-size: 1.1rem;
+  color: #0bff7a;
+  text-decoration: none;
+  font-weight: 500;
+  margin-right: 1.5rem;
+  transition: color 0.2s;
+}
+.nav-link:hover {
+  color: #0bff7a99;
+}
+
+.theme-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #0bff7a;
+  transition: color 0.2s;
+  margin-left: 1rem;
+  margin-right: 0;
+  align-self: flex-end;
+}
+body.light .theme-btn {
+  color: #181818;
+}
+
+.main-title {
+  font-size: 3rem;
+  font-weight: 700;
   text-align: center;
-  font-weight: 400;
-  font-style: normal;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  color: #0bff7a;
+  line-height: 1.1;
+}
+body.light .main-title {
+  color: #064e00;
 }
 
-body.light h1 {
-  color: #111;
+.center-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-top: 7vh;
+  gap: 2rem;
+}
+
+.recycling-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.primary-btn {
+  background: #0bff7a;
+  color: #181818;
+  font-size: 1.2rem;
+  padding: 1rem 2.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+  transition: transform 0.15s, background 0.3s, box-shadow 0.3s;
+}
+.primary-btn:hover {
+  background: #0bff7a99;
+  transform: translateY(-2px);
+}
+.primary-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#map-area {
+  margin-top: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+}
+.hidden {
+  display: none !important;
+}
+
+.location-info {
+  font-size: 1.1rem;
+  color: #0bff7a;
+  background: rgba(11, 255, 122, 0.08);
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+}
+body.light .location-info {
+  color: #064e00;
+  background: rgba(6, 78, 0, 0.08);
+}
+
+.quem-somos-section {
+  margin-top: 3rem;
+  max-width: 600px;
+  background: rgba(11, 255, 122, 0.05);
+  border-radius: 10px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.quem-somos-section h2 {
+  color: #0bff7a;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+body.light .quem-somos-section h2 {
+  color: #064e00;
+}
+.quem-somos-section p {
+  font-size: 1.1rem;
+  color: inherit;
+}
+
+.footer {
+  width: 100%;
+  text-align: center;
+  padding: 1.2rem 0 0.7rem 0;
+  font-size: 1.1rem;
+  color: #0bff7a;
+  background: transparent;
+  margin-top: 3rem;
+}
+body.light .footer {
+  color: #064e00;
 }
 
 .center-wrapper {

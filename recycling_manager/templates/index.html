@@ -11,37 +11,104 @@
     <title>Recycling Manager</title>
   </head>
   <body>
-    <main class="center-wrapper">
-      <h1>Recycle Manager</h1>
-      <button id="main-action" class="primary-btn" type="button">
-        Clique Aqui
+    <header class="header">
+      <nav>
+        <a href="#quem-somos" class="nav-link">Quem Somos</a>
+      </nav>
+      <button id="toggle-theme" class="theme-btn" title="Alternar tema">
+        🌙
       </button>
-      <div id="image-area" class="hidden">
-        <div class="image-square">
-          <img
-            id="dynamic-image"
-            src="{{ url_for('static', filename='recycle.jpg') }}"
-            alt="Imagem"
-          />
+    </header>
+    <main class="center-wrapper">
+      <h1 class="main-title">🗑️<br />Tech Recycling</h1>
+      <section class="recycling-section">
+        <button id="show-map" class="primary-btn">
+          Mostrar ponto de reciclagem
+        </button>
+        <div id="map-area" class="hidden">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4962.997888882486!2d-49.255080487918896!3d-25.45063227745509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce4fa681a5c4d%3A0x8fcd576765ebac4f!2sPUCPR%20-%20Block%201%20-%20Yellow!5e1!3m2!1sen!2sbr!4v1758067586664!5m2!1sen!2sbr"
+            width="600"
+            height="450"
+            style="border: 0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+          <div class="location-info">
+            <strong>Sala 25 bloco amarelo</strong> <span>(exemplo)</span>
+          </div>
         </div>
-      </div>
+      </section>
+      <section class="o-que-reciclamos">
+        <h2>O Que Reciclamos? ♻️</h2>
+        <div class="itens-container">
+          <div class="item">
+            <img
+              src="{{ url_for('static', filename='images/icon-celular.png') }}"
+              alt="Ícone de celular"
+            />
+            <p>Celulares e Tablets</p>
+          </div>
+          <div class="item">
+            <img
+              src="{{ url_for('static', filename='images/icon-bateria.png') }}"
+              alt="Ícone de bateria"
+            />
+            <p>Pilhas e Baterias</p>
+          </div>
+          <div class="item">
+            <img
+              src="{{ url_for('static', filename='images/icon-computador.png') }}"
+              alt="Ícone de computador"
+            />
+            <p>Computadores e Notebooks</p>
+          </div>
+          <div class="item">
+            <img
+              src="{{ url_for('static', filename='images/icon-cabos.png') }}"
+              alt="Ícone de cabos"
+            />
+            <p>Cabos e Carregadores</p>
+          </div>
+        </div>
+      </section>
+      <section id="quem-somos" class="quem-somos-section">
+        <h2>Quem Somos</h2>
+        <p>
+          Somos uma iniciativa dedicada à reciclagem de tecnologia, promovendo o
+          descarte consciente e sustentável de eletrônicos em Curitiba desde
+          2024.
+        </p>
+      </section>
     </main>
+    <footer class="footer">
+      Curitiba &nbsp;|&nbsp; Luiz Gasparino &nbsp;|&nbsp;
+      <a
+        href="https://www.youtube.com/watch?v=k4W9s3StS14"
+        target="_blank"
+        style="color: inherit; text-decoration: underline"
+        >2025</a
+      >
+    </footer>
     <script>
-      const btn = document.getElementById("main-action");
-      const imageArea = document.getElementById("image-area");
-      const body = document.body;
-      let shown = false;
-      btn.addEventListener("click", () => {
-        shown = !shown;
-        if (shown) {
-          imageArea.classList.remove("hidden");
-          body.classList.add("light");
-          btn.textContent = "Ocultar Imagem";
-        } else {
-          imageArea.classList.add("hidden");
-          body.classList.remove("light");
-          btn.textContent = "Clique Aqui";
-        }
+      // Toggle map visibility
+      const showMapBtn = document.getElementById("show-map");
+      const mapArea = document.getElementById("map-area");
+      showMapBtn.addEventListener("click", () => {
+        mapArea.classList.toggle("hidden");
+        showMapBtn.textContent = mapArea.classList.contains("hidden")
+          ? "Mostrar ponto de reciclagem"
+          : "Ocultar ponto de reciclagem";
+      });
+
+      // Theme toggle
+      const themeBtn = document.getElementById("toggle-theme");
+      themeBtn.addEventListener("click", () => {
+        document.body.classList.toggle("light");
+        themeBtn.textContent = document.body.classList.contains("light")
+          ? "☀️"
+          : "🌙";
       });
     </script>
   </body>
