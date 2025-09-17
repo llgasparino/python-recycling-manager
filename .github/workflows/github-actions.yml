@@ -32,47 +32,6 @@ jobs:
       - name: Run tests
         run: python -m pytest --cov=recycling_manager --cov-report=term-missing -q
 
-      - name: Notify Discord
-        if: always() # Roda sempre, independente do resultado
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
-        run: |
-          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
-            echo "Webhook não configurado. Pulando notificação."
-            exit 0
-          fi
-
-          # Define a cor e o status baseado no resultado do job
-          if [[ "${{ job.status }}" == "success" ]]; then
-            EMBED_COLOR=3066993 # Verde
-            STATUS_MSG="✅ Sucesso"
-          else
-            EMBED_COLOR=15158332 # Vermelho
-            STATUS_MSG="❌ Falha"
-          fi
-
-          read -r -d '' PAYLOAD << EOF
-          {
-            "embeds": [{
-              "title": "$STATUS_MSG no repositório ${{ github.repository }}",
-              "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-              "color": "$EMBED_COLOR",
-              "fields": [
-                { "name": "Branch", "value": "${{ github.ref_name }}", "inline": true },
-                { "name": "Autor", "value": "${{ github.actor }}", "inline": true },
-                { "name": "Commit", "value": "[\`${GITHUB_SHA::7}\`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})" }
-              ]
-            }]
-          }
-          EOF
-          if ! echo "$PAYLOAD" | jq . > /dev/null; then
-            echo "::error::JSON Inválido gerado. Payload:"
-            echo "$PAYLOAD"
-            exit 1
-          fi
-          curl -H "Content-Type: application/json" -X POST \
-            -d "$PAYLOAD" "$DISCORD_WEBHOOK_URL"
-
   docker:
     runs-on: ubuntu-latest
     needs: tests
@@ -105,21 +64,18 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Notify Discord (success)
-        if: success()
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
-        run: |
-          if [ -z "$DISCORD_WEBHOOK_URL" ]; then echo "Webhook não configurado"; exit 0; fi
-          STATUS_MSG="🚀 Docker build publicado em ${GITHUB_REPOSITORY} (commit ${GITHUB_SHA::7})\nAutor: ${GITHUB_ACTOR}\nBranch: ${GITHUB_REF_NAME}\nTags: ${TAGS:-sem tag}"
-          curl -H "Content-Type: application/json" -X POST \
-            -d "{\"content\": \"$STATUS_MSG\"}" "$DISCORD_WEBHOOK_URL"
-      - name: Notify Discord (failure)
-        if: failure()
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
-        run: |
-          if [ -z "$DISCORD_WEBHOOK_URL" ]; then echo "Webhook não configurado"; exit 0; fi
-          STATUS_MSG="❌ Docker build falhou em ${GITHUB_REPOSITORY} (commit ${GITHUB_SHA::7})\nAutor: ${GITHUB_ACTOR}\nBranch: ${GITHUB_REF_NAME}\nVer logs: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-          curl -H "Content-Type: application/json" -X POST \
-            -d "{\"content\": \"$STATUS_MSG\"}" "$DISCORD_WEBHOOK_URL"
+      - name: Discord Notifier
+        if: always()
+        uses: fateyan/action-discord-notifier@v1.2.0
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          username: "CI Bot 🤖"
+          avatar_url: "https://raw.githubusercontent.com/github/explore/main/topics/github-actions/github-actions.png"
+          description: |
+            🚀 **Build Docker finalizado!**
+            • Status: **${{ job.status }}**
+            • Branch: `${{ github.ref_name }}`
+            • Commit: `${{ github.sha }}`
+            • Tags: `${{ steps.meta.outputs.tags || 'sem tag' }}`
+            • Autor: **${{ github.actor }}**
