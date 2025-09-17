@@ -2,6 +2,7 @@ import unittest
 from app import app
 import datetime
 
+
 class BasicTestCase(unittest.TestCase):
 
     def setUp(self):
