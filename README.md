@@ -4,11 +4,26 @@
 
 # python-recycling-manager
 
-Projeto acadêmico: aplicação Flask simples para agendar entrega de descarte eletrônico para um micro-empreendedor.
+Site para agendamento e consulta de pontos de reciclagem tech em Curitiba, com layout moderno, modo claro/escuro, integração com Discord e CI/CD automatizado.
+
+Veja o site rodando localmente ou via Docker, e confira o layout:
+
+🔗 [Acesse o site local](http://localhost:5000)
+
+## Funcionalidades
+
+- Landing page estilizada para reciclagem tech
+- Modo claro/escuro com botão no topo
+- Consulta de ponto de reciclagem com mapa embed
+- Seção "O Que Reciclamos?" com ícones
+- Footer com link especial no ano
+- Página de erro personalizada
+- Testes automáticos (pytest)
+- Pipeline CI/CD com notificações no Discord
 
 ## Execução local
 
-Clonar e instalar dependências:
+Clone o projeto e instale as dependências:
 
 ```bash
 python -m venv .venv
@@ -17,7 +32,7 @@ pip install -r requirements.txt
 flask --app recycling_manager run --debug
 ```
 
-Ou com `python` direto:
+Ou rode direto:
 
 ```bash
 python app.py
@@ -37,26 +52,29 @@ Rodar container:
 docker run --rm -p 5000:5000 recycling-manager:latest
 ```
 
-Acessar: http://localhost:5000
+Acesse: [http://localhost:5000](http://localhost:5000)
 
-### Modo desenvolvimento (com hot-reload opcional)
+### Modo desenvolvimento (hot-reload)
 
-Para desenvolvimento você pode montar o volume do código local:
+Para desenvolvimento, monte o volume do código local:
 
 ```bash
 docker run --rm -it -p 5000:5000 -v $(pwd)/recycling_manager:/app/recycling_manager -e FLASK_ENV=development recycling-manager:latest
 ```
 
-## Pipeline (CI)
+## Pipeline (CI/CD)
 
-O workflow atual executa lint (flake8) a cada push/PR em `main`.
+O workflow executa lint, testes automáticos e build/push da imagem Docker a cada push ou PR. Notificações são enviadas para o Discord do projeto.
 
 ## Próximos passos sugeridos
 
-- Adicionar testes (pytest)
-- Publicar imagem no Docker Hub via GitHub Actions
-- Adicionar variáveis de ambiente para configuração
+- Melhorar cobertura de testes
+- Adicionar autenticação de usuário
+- Permitir cadastro de novos pontos de reciclagem
+- Dashboard para microempreendedores
 
 ---
 
-Autor: Luiz
+---
+
+Autor: Luiz Gasparino
