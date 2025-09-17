@@ -31,20 +31,24 @@ jobs:
           pip install -r requirements.txt -r requirements-dev.txt
       - name: Run tests
         run: python -m pytest --cov=recycling_manager --cov-report=term-missing -q
-      - name: Discord Notifier (Testes)
-        if: always()
-        uses: fateyan/action-discord-notifier@v1.2.0
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          status: ${{ job.status }}
-          username: "TestBot 🧪"
-          avatar_url: "https://img.icons8.com/color/96/test-tube.png"
-          description: |
-            🧪 **Testes finalizados!**
-            • Status: **${{ job.status }}**
-            • Branch: `${{ github.ref_name }}`
-            • Commit: `${{ github.sha }}`
-            • Autor: **${{ github.actor }}**
+      - name: Notify Discord (success)
+        if: success()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then echo "Webhook não configurado"; exit 0; fi
+          STATUS_MSG="✅ Testes passaram em ${GITHUB_REPOSITORY} (commit ${GITHUB_SHA::7})\nAutor: ${GITHUB_ACTOR}\nBranch: ${GITHUB_REF_NAME}"
+          curl -H "Content-Type: application/json" -X POST \
+            -d "{\"content\": \"$STATUS_MSG\"}" "$DISCORD_WEBHOOK_URL"
+      - name: Notify Discord (failure)
+        if: failure()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then echo "Webhook não configurado"; exit 0; fi
+          STATUS_MSG="❌ Testes falharam em ${GITHUB_REPOSITORY} (commit ${GITHUB_SHA::7})\nAutor: ${GITHUB_ACTOR}\nBranch: ${GITHUB_REF_NAME}\nVer logs: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          curl -H "Content-Type: application/json" -X POST \
+            -d "{\"content\": \"$STATUS_MSG\"}" "$DISCORD_WEBHOOK_URL"
 
   docker:
     runs-on: ubuntu-latest
@@ -78,18 +82,21 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Discord Notifier (Docker)
-        if: always()
-        uses: fateyan/action-discord-notifier@v1.2.0
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          status: ${{ job.status }}
-          username: "CI Bot 🤖"
-          avatar_url: "https://raw.githubusercontent.com/github/explore/main/topics/github-actions/github-actions.png"
-          description: |
-            🚀 **Build Docker finalizado!**
-            • Status: **${{ job.status }}**
-            • Branch: `${{ github.ref_name }}`
-            • Commit: `${{ github.sha }}`
-            • Tags: `${{ steps.meta.outputs.tags || 'sem tag' }}`
-            • Autor: **${{ github.actor }}**
+      - name: Notify Discord (success)
+        if: success()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then echo "Webhook não configurado"; exit 0; fi
+          STATUS_MSG="🚀 Docker build publicado em ${GITHUB_REPOSITORY} (commit ${GITHUB_SHA::7})\nAutor: ${GITHUB_ACTOR}\nBranch: ${GITHUB_REF_NAME}\nTags: ${TAGS:-sem tag}"
+          curl -H "Content-Type: application/json" -X POST \
+            -d "{\"content\": \"$STATUS_MSG\"}" "$DISCORD_WEBHOOK_URL"
+      - name: Notify Discord (failure)
+        if: failure()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then echo "Webhook não configurado"; exit 0; fi
+          STATUS_MSG="❌ Docker build falhou em ${GITHUB_REPOSITORY} (commit ${GITHUB_SHA::7})\nAutor: ${GITHUB_ACTOR}\nBranch: ${GITHUB_REF_NAME}\nVer logs: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          curl -H "Content-Type: application/json" -X POST \
+            -d "{\"content\": \"$STATUS_MSG\"}" "$DISCORD_WEBHOOK_URL"
