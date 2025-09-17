@@ -42,7 +42,6 @@ jobs:
             exit 0
           fi
 
-          # 1. Define variáveis baseadas no status do job
           if [[ "${{ job.status }}" == "success" ]]; then
             STATUS_MSG="✅ Sucesso"
             EMBED_COLOR=3066993 # Cor verde
@@ -51,11 +50,9 @@ jobs:
             EMBED_COLOR=15158332 # Cor vermelha
           fi
 
-          # 2. Constrói a mensagem rica (Embed) em formato JSON
           COMMIT_URL="${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
           ACTION_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
-          # Usamos GITHUB_SHA::7 para pegar um hash mais curto
           SHORT_SHA="${GITHUB_SHA::7}"
 
           read -r -d '' PAYLOAD << EOF
